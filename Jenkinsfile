@@ -24,13 +24,13 @@ node
    {
    withCredentials([string(credentialsId: 'dockerPass', variable: 'dockerPassword')])
    {
-   sh "docker login -u aravind06a -p ${dockerPassword}"
+   sh "docker login -u dockerPass -p ${dockerPassword}"
    }
-   sh 'docker push aravind06a/myweb:0.0.2'
+   sh 'docker push dockerPass/myweb:0.0.2'
    }
    stage('Nexus Image Push'){
-   sh "docker login -u admin -p admin123 18.218.157.181:8083"
-   sh "docker tag aravind06a/myweb:0.0.2 18.218.157.181:8083/arvi:1.0.0"
+   sh "docker login -u dockerPass -p dockerPassword 18.218.157.181:8083"
+   sh "docker tag dockerPass/myweb:0.0.2 18.218.157.181:8083/arvi:1.0.0"
    sh 'docker push 18.218.157.181:8083/arvi:1.0.0'
    }
    stage('Remove Previous Container'){
@@ -40,7 +40,7 @@ node
 		//  do nothing if there is an exception
 	}
    stage('Docker deployment'){
-   sh 'docker run -d -p 8090:8080 --name tomcattest aravind06a/myweb:0.0.2' 
+   sh 'docker run -d -p 8090:8080 --name tomcattest dockerPass/myweb:0.0.2' 
    }
 }
 }
